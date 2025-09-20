@@ -29,9 +29,30 @@
 		D8CC5BEF2E7ED0B5008E94EF /* DiceRollUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiceRollUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		D8CC5C0B2E7EDA8E008E94EF /* Exceptions for "DiceRoll" folder in "DiceRollTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				DiceViewModel.swift,
+			);
+			target = D8CC5BE42E7ED0B5008E94EF /* DiceRollTests */;
+		};
+		D8CC5C0C2E7EDA8E008E94EF /* Exceptions for "DiceRoll" folder in "DiceRollUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				DiceViewModel.swift,
+			);
+			target = D8CC5BEE2E7ED0B5008E94EF /* DiceRollUITests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		D8CC5BD92E7ED0B1008E94EF /* DiceRoll */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				D8CC5C0B2E7EDA8E008E94EF /* Exceptions for "DiceRoll" folder in "DiceRollTests" target */,
+				D8CC5C0C2E7EDA8E008E94EF /* Exceptions for "DiceRoll" folder in "DiceRollUITests" target */,
+			);
 			path = DiceRoll;
 			sourceTree = "<group>";
 		};
