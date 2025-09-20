@@ -33,14 +33,22 @@
 		D8CC5C0B2E7EDA8E008E94EF /* Exceptions for "DiceRoll" folder in "DiceRollTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				DiceViewModel.swift,
+				ViewModels/DiceViewModel.swift,
+				ViewModels/SudokuViewModel.swift,
+				Views/DiceView.swift,
+				Views/SudokuCellView.swift,
+				Views/SudokuView.swift,
 			);
 			target = D8CC5BE42E7ED0B5008E94EF /* DiceRollTests */;
 		};
 		D8CC5C0C2E7EDA8E008E94EF /* Exceptions for "DiceRoll" folder in "DiceRollUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				DiceViewModel.swift,
+				ViewModels/DiceViewModel.swift,
+				ViewModels/SudokuViewModel.swift,
+				Views/DiceView.swift,
+				Views/SudokuCellView.swift,
+				Views/SudokuView.swift,
 			);
 			target = D8CC5BEE2E7ED0B5008E94EF /* DiceRollUITests */;
 		};
