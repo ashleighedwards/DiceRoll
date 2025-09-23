@@ -48,7 +48,7 @@ struct SudokuView: View {
     }
     
     private var numberPad: some View {
-        HStack(spacing: 8) {
+        HStack(spacing:10) {
             ForEach(1...9, id: \.self) { num in
                 Button(action: {
                     if let selected = selectedCell {
@@ -57,7 +57,7 @@ struct SudokuView: View {
                 }) {
                     Text("\(num)")
                         .font(.title2)
-                        .frame(width: 40, height: 40)
+                        .frame(width: 30, height: 30)
                         .background(Color.gray.opacity(0.2))
                         .cornerRadius(8)
                 }

@@ -36,6 +36,9 @@
 				ViewModels/DiceViewModel.swift,
 				ViewModels/SudokuViewModel.swift,
 				Views/DiceView.swift,
+				Views/HomeView.swift,
+				Views/ProfileView.swift,
+				Views/SettingsView.swift,
 				Views/SudokuCellView.swift,
 				Views/SudokuView.swift,
 			);
@@ -47,6 +50,9 @@
 				ViewModels/DiceViewModel.swift,
 				ViewModels/SudokuViewModel.swift,
 				Views/DiceView.swift,
+				Views/HomeView.swift,
+				Views/ProfileView.swift,
+				Views/SettingsView.swift,
 				Views/SudokuCellView.swift,
 				Views/SudokuView.swift,
 			);
