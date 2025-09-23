@@ -10,6 +10,7 @@ import CoreData
 
 struct ProfileFormView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.dismiss) private var dismiss
     @StateObject private var viewModel: ProfileFormViewModel
     
     init() {
@@ -18,40 +19,56 @@ struct ProfileFormView: View {
     }
         
     var body: some View {
-        NavigationView {
-            Form {
-                Section(header: Text("Personal Info")) {
-                    TextField("Name", text: $viewModel.name)
-                        .autocapitalization(.words)
-                    TextField("Email", text: $viewModel.email)
-                        .autocapitalization(.none)
-                        .keyboardType(.emailAddress)
-                    TextField("Age", text: $viewModel.age)
-                        .keyboardType(.numberPad)
-                }
-                
-                Section {
-                    Button("Save Profile") {
-                        if viewModel.isValidForm() {
-                            viewModel.saveProfile()
-                        } else {
-                            viewModel.showValidationError = true
-                        }
+        Form {
+            Section(header: Text("Personal Info")) {
+                NavigationLink(destination: NameEntryView(viewModel: viewModel)) {
+                    HStack {
+                        Text("Name")
+                        Spacer()
+                        Text(viewModel.fullName.isEmpty ? "" : viewModel.fullName)
+                            .foregroundColor(.gray)
+                            .multilineTextAlignment(.trailing)
+                            .autocapitalization(.words)
                     }
                 }
-            }
-            .navigationTitle("Edit Profile")
-            .onAppear(perform: viewModel.loadProfile)
-            .alert("Saved", isPresented: $viewModel.showSuccessMessage) {
-                Button("OK", role: .cancel) {}
-            }
-            .alert(isPresented: $viewModel.showValidationError) {
-                Alert(title: Text("Invalid Input"),
-                      message: Text(viewModel.errorMessage),
-                      dismissButton: .default(Text("OK"))
-                )
+                HStack {
+                    Text("Email")
+                    Spacer()
+                    TextField("", text: $viewModel.email)
+                        .autocapitalization(.none)
+                        .foregroundColor(.gray)
+                        .multilineTextAlignment(.trailing)
+                        .keyboardType(.emailAddress)
+                }
+                
+                HStack {
+                    Text("Date of birth")
+                    Spacer()
+                    DatePicker("", selection: $viewModel.dateOfBirth, displayedComponents: .date)
+                        .datePickerStyle(.compact)
+
+                }
             }
         }
+        .navigationTitle("Edit Profile")
+        .onAppear(perform: viewModel.loadProfile)
+        .alert(isPresented: $viewModel.showValidationError) {
+            Alert(title: Text("Invalid Input"),
+                  message: Text(viewModel.errorMessage),
+                  dismissButton: .default(Text("OK"))
+            )
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button("Save") {
+                    viewModel.saveProfile()
+                    dismiss()
+                }
+                .foregroundColor(viewModel.hasUnsavedProfileChanges ? .blue : .gray)
+                .disabled(!viewModel.hasUnsavedProfileChanges)
+            }
+        }
+        
     }
 }
 
