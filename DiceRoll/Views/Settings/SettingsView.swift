@@ -8,14 +8,12 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @State private var notificationsEnabled = true
     @AppStorage("isDarkMode") private var isDarkMode = true
     
     var body: some View {
         NavigationView {
             Form {
                 Section(header: Text("Preferences")) {
-                    Toggle("Enable notifications", isOn: $notificationsEnabled)
                     Toggle("Enable Dark Mode", isOn: $isDarkMode)
                     .pickerStyle(SegmentedPickerStyle())
                 }
@@ -28,16 +26,12 @@ struct SettingsView: View {
                         Text("Change password")
                     }
                 }
-                
-                Section {
-                    Button(role: .destructive) {
-                        print("Logging out")
-                    } label: {
-                        Text("Log out")
-                    }
-                }
             }
             .navigationTitle("Settings")
         }
     }
+}
+
+#Preview {
+    SettingsView()
 }

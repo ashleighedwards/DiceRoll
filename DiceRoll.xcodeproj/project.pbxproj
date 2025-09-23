@@ -33,28 +33,36 @@
 		D8CC5C0B2E7EDA8E008E94EF /* Exceptions for "DiceRoll" folder in "DiceRollTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				ViewModels/DiceViewModel.swift,
-				ViewModels/SudokuViewModel.swift,
-				Views/DiceView.swift,
+				CoreData/Model.xcdatamodeld,
+				PersistenceController.swift,
+				ViewModels/Games/DiceViewModel.swift,
+				ViewModels/Games/SudokuViewModel.swift,
+				ViewModels/Settings/ProfileFormViewModel.swift,
+				Views/Games/DiceView.swift,
+				Views/Games/SudokuCellView.swift,
+				Views/Games/SudokuView.swift,
 				Views/HomeView.swift,
-				Views/ProfileView.swift,
-				Views/SettingsView.swift,
-				Views/SudokuCellView.swift,
-				Views/SudokuView.swift,
+				Views/Settings/ProfileFormView.swift,
+				Views/Settings/ProfileView.swift,
+				Views/Settings/SettingsView.swift,
 			);
 			target = D8CC5BE42E7ED0B5008E94EF /* DiceRollTests */;
 		};
 		D8CC5C0C2E7EDA8E008E94EF /* Exceptions for "DiceRoll" folder in "DiceRollUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				ViewModels/DiceViewModel.swift,
-				ViewModels/SudokuViewModel.swift,
-				Views/DiceView.swift,
+				CoreData/Model.xcdatamodeld,
+				PersistenceController.swift,
+				ViewModels/Games/DiceViewModel.swift,
+				ViewModels/Games/SudokuViewModel.swift,
+				ViewModels/Settings/ProfileFormViewModel.swift,
+				Views/Games/DiceView.swift,
+				Views/Games/SudokuCellView.swift,
+				Views/Games/SudokuView.swift,
 				Views/HomeView.swift,
-				Views/ProfileView.swift,
-				Views/SettingsView.swift,
-				Views/SudokuCellView.swift,
-				Views/SudokuView.swift,
+				Views/Settings/ProfileFormView.swift,
+				Views/Settings/ProfileView.swift,
+				Views/Settings/SettingsView.swift,
 			);
 			target = D8CC5BEE2E7ED0B5008E94EF /* DiceRollUITests */;
 		};

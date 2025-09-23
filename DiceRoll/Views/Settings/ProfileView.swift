@@ -10,8 +10,6 @@ import SwiftUICore
 
 struct ProfileView: View {
     var body: some View {
-        Text("User Profile")
-            .font(.title)
-            .padding()
+        ProfileFormView()
     }
 }
