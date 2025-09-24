@@ -7,10 +7,10 @@
 
 import SwiftUI
 import CoreData
+import _PhotosUI_SwiftUI
 
 struct ProfileFormView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @Environment(\.dismiss) private var dismiss
     @StateObject private var viewModel: ProfileFormViewModel
     
     init() {
@@ -20,6 +20,40 @@ struct ProfileFormView: View {
         
     var body: some View {
         Form {
+            Section {
+                HStack {
+                    Spacer()
+                    VStack {
+                        if let image = viewModel.profileImage {
+                            Image(uiImage: image)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 100, height: 100)
+                                .clipShape(Circle())
+                        } else {
+                            Image(systemName: "person.crop.circle.fill")
+                                .resizable()
+                                .foregroundColor(.gray)
+                                .frame(width: 100, height: 100)
+                        }
+
+                        PhotosPicker(
+                            selection: $viewModel.selectedImageItem,
+                            matching: .images,
+                            photoLibrary: .shared()
+                        ) {
+                            Text("Edit")
+                                .font(.title3)
+                                .foregroundColor(.blue)
+                        }
+                    }
+                    Spacer()
+                }
+                .background(Color.clear)
+                .listRowBackground(Color.clear)
+
+            }
+        
             Section(header: Text("Personal Info")) {
                 NavigationLink(destination: NameEntryView(viewModel: viewModel)) {
                     HStack {
@@ -36,7 +70,6 @@ struct ProfileFormView: View {
                     Spacer()
                     TextField("", text: $viewModel.email)
                         .autocapitalization(.none)
-                        .foregroundColor(.gray)
                         .multilineTextAlignment(.trailing)
                         .keyboardType(.emailAddress)
                 }
@@ -51,6 +84,7 @@ struct ProfileFormView: View {
             }
         }
         .navigationTitle("Edit Profile")
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear(perform: viewModel.loadProfile)
         .alert(isPresented: $viewModel.showValidationError) {
             Alert(title: Text("Invalid Input"),
@@ -62,7 +96,6 @@ struct ProfileFormView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button("Save") {
                     viewModel.saveProfile()
-                    dismiss()
                 }
                 .foregroundColor(viewModel.hasUnsavedProfileChanges ? .blue : .gray)
                 .disabled(!viewModel.hasUnsavedProfileChanges)

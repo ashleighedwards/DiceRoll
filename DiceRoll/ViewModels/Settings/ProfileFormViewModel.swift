@@ -9,6 +9,7 @@ import Foundation
 import CoreData
 import SwiftUI
 import Combine
+import PhotosUI
 
 @MainActor
 class ProfileFormViewModel: ObservableObject {
@@ -18,6 +19,12 @@ class ProfileFormViewModel: ObservableObject {
     @Published var fullName: String = ""
     @Published var email: String = ""
     @Published var dateOfBirth: Date = Date()
+    @Published var profileImage: UIImage? = nil
+    @Published var selectedImageItem: PhotosPickerItem? = nil {
+        didSet {
+            loadImage()
+        }
+    }
     
     @Published var showValidationError = false
     @Published var errorMessage = ""
@@ -34,7 +41,6 @@ class ProfileFormViewModel: ObservableObject {
     private var viewContext: NSManagedObjectContext
     
     private var cancellables = Set<AnyCancellable>()
-    private var profileCancellables = Set<AnyCancellable>()
     
     init(context: NSManagedObjectContext) {
         self.viewContext = context
@@ -74,7 +80,20 @@ class ProfileFormViewModel: ObservableObject {
             .removeDuplicates()
             .assign(to: &$hasUnsavedProfileChanges)
     }
+    
+    private func loadImage() {
+        guard let item = selectedImageItem else { return }
 
+        Task {
+            if let data = try await item.loadTransferable(type: Data.self),
+               let image = UIImage(data: data) {
+                await MainActor.run {
+                    self.profileImage = image
+                    self.saveProfile()
+                }
+            }
+        }
+    }
     
     func loadProfile() {
         let request: NSFetchRequest<Profile> = Profile.fetchRequest()
@@ -88,6 +107,11 @@ class ProfileFormViewModel: ObservableObject {
                 middleName = existing.middleName ?? ""
                 email = existing.email ?? ""
                 dateOfBirth = existing.dob ?? Date()
+                
+                if let imageData = existing.imageData,
+                   let uiImage = UIImage(data: imageData) {
+                    profileImage = uiImage
+                }
             }
             observeProfileChanges()
         } catch {
@@ -114,6 +138,10 @@ class ProfileFormViewModel: ObservableObject {
         profile.firstName = firstName
         profile.email = email
         profile.dob = dateOfBirth
+        
+        if let image = profileImage {
+            profile.imageData = image.jpegData(compressionQuality: 0.8)
+        }
 
         do {
             try viewContext.save()

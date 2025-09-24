@@ -13,11 +13,23 @@ struct DiceRollApp: App {
     @AppStorage("isDarkMode") private var isDarkMode = true
     let persistenceController = PersistenceController.shared
     
+    @State private var hasLoaded = false
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                .preferredColorScheme(isDarkMode ? .dark : .light)
+            if hasLoaded {
+                ContentView()
+                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                    .preferredColorScheme(isDarkMode ? .dark : .light)
+            } else {
+                Color.clear
+                    .onAppear {
+                        DispatchQueue.main.async {
+                            hasLoaded = true
+                        }
+                    }
+            }
+            
         }
     }
 }
