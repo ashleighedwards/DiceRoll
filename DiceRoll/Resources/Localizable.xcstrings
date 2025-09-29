@@ -7,10 +7,16 @@
     "-" : {
 
     },
+    "%d" : {
+
+    },
     "%lld" : {
 
     },
     "+" : {
+
+    },
+    "$%.2f" : {
 
     },
     "Account" : {
@@ -35,6 +41,9 @@
           }
         }
       }
+    },
+    "Cart" : {
+
     },
     "Date of birth" : {
       "extractionState" : "manual",
@@ -545,6 +554,9 @@
         }
       }
     },
+    "Products" : {
+
+    },
     "Profile" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -660,6 +672,9 @@
         }
       }
     },
+    "Shop" : {
+
+    },
     "Sudoku" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -705,6 +720,15 @@
           }
         }
       }
+    },
+    "Tabs" : {
+
+    },
+    "Total: $%.2f" : {
+
+    },
+    "x%d" : {
+
     }
   },
   "version" : "1.0"

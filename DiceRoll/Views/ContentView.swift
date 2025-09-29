@@ -8,11 +8,18 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(\.managedObjectContext) private var viewContext
+
     var body: some View {
         TabView {
-            HomeView()
+            HomeView(context: viewContext)
                 .tabItem {
                     Label(LanguageManager.shared.localizedString(for: "Home"), systemImage: "house")
+                }
+            
+            GamesView()
+                .tabItem {
+                    Label(LanguageManager.shared.localizedString(for: "Games"), systemImage: "puzzlepiece")
                 }
             
             SettingsView()
@@ -26,4 +33,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
 }

@@ -9,7 +9,6 @@ import CoreData
 
 struct PersistenceController {
     static let shared = PersistenceController()
-
     let container: NSPersistentContainer
 
     init(inMemory: Bool = false) {
@@ -29,4 +28,18 @@ struct PersistenceController {
 
         container.viewContext.automaticallyMergesChangesFromParent = true
     }
+    
+    static var preview: PersistenceController = {
+        let controller = PersistenceController(inMemory: true)
+        let viewContext = controller.container.viewContext
+
+        do {
+            try viewContext.save()
+        } catch {
+            let nsError = error as NSError
+            fatalError("Unresolved preview error \(nsError)")
+        }
+
+        return controller
+    }()
 }

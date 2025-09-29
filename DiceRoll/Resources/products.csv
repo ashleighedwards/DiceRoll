@@ -1,0 +1,28 @@
+id,productName,price,imageName,availability
+1,Sudoku book,5.99,sudoku,300
+2,Heat,10.99,car,200
+3,Trio/Nana,9.99,card,100
+4,Tatari,7.99,stairs,50
+5,INIS,12.99,image,75
+6,Scout,5.99,tent,50
+7,Gang of Dice,4.99,dice,125
+8,Azul,8.99,blue,150
+9,My City,10.99,city,175
+10,Mille Fiori,11.99,sea,200
+11,Pax Pamir,8.99,purple,150
+12,Sidereal Confluence,12.99,alien,200
+13,Undaunted: Stalingrad,13.99,war,250
+14,El Grande,7.99,horse,200
+15,MLEM: Space Agency,9.99,cat,300
+16,The Crew: Mission Deep Sea,13.99,sea,200
+17,The Quest For El Dorado,12.99,grass,250
+18,Hansa Teutonica: Big Box,14.99,castle,150
+19,Through the Desert,8.99,desert,200
+20,Babylonia,6.99,oasis,200
+21,Klask,5.99,blue,300
+22,Brass: Birmingham,9.99,black,200
+23,Arcs,5.99,space,225
+24,Crokinole,15.99,circle,100
+25,RA,7.99,egypt,125
+26,Tigris & Euphrates,8.99,castle,250
+27,Yellow & Yangtze,12.99,river,100

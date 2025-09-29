@@ -7,29 +7,48 @@
 
 
 import SwiftUI
+import CoreData
 
 struct HomeView: View {
-    let items: [MenuDetails] = [
-        MenuDetails(title: LanguageManager.shared.localizedString(for: "Sudoku"), destination: AnyView(SudokuView())),
-        MenuDetails(title: LanguageManager.shared.localizedString(for: "Dice Roll"), destination: AnyView(DiceView()))
-        ]
+    @Environment(\.managedObjectContext) private var viewContext
+    @StateObject private var viewModel: ProductViewModel
+    
+    @State private var selectedTab: ShopTabs = .products
+    
+    init(context: NSManagedObjectContext) {
+        _viewModel = StateObject(wrappedValue: ProductViewModel(context: context))
+    }
     
     var body: some View {
         NavigationView {
-            List(items) { item in
-                NavigationLink(destination: item.destination) {
-                    HStack {
-                        Image(systemName: "chevron.right")
-                        Text(item.title)
+            VStack(spacing: 0) {
+                Picker("Tabs", selection: $selectedTab) {
+                    ForEach(ShopTabs.allCases) { tab in
+                        Text(tab.rawValue).tag(tab)
+                            .font(.subheadline)
+                            .tag(tab)
                     }
                 }
+                .pickerStyle(.segmented)
+                .padding(.top, 8)
+                
+                switch selectedTab {
+                case .products:
+                    ProductsView(viewModel: viewModel)
+                case .cart:
+                    CartView()
+                }
             }
-            .navigationTitle(LanguageManager.shared.localizedString(for: "Games"))
+            .navigationTitle("Shop")
+            .navigationBarTitleDisplayMode(.inline)
+            .onAppear {
+                viewModel.seedProductsIfNeeded()
+                viewModel.clearExpiredCartItems()
+            }
         }
     }
 }
 
-
 #Preview {
-    HomeView()
+    HomeView(context: PersistenceController.preview.container.viewContext)
 }
