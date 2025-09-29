@@ -13,23 +13,23 @@ struct NameEntryView: View {
 
     var body: some View {
         Form {
-            Section(header: Text("Enter Your Name")) {
+            Section(header: Text(LanguageManager.shared.localizedString(for: "Enter Your Name"))) {
                 HStack {
-                    Text("Forename").foregroundColor(.gray)
+                    Text(LanguageManager.shared.localizedString(for: "Forename")).foregroundColor(.gray)
                     Spacer()
                     TextField("", text: $viewModel.firstName)
                         .multilineTextAlignment(.trailing)
                         .autocapitalization(.none)
                 }
                 HStack {
-                    Text("Middle").foregroundColor(.gray)
+                    Text(LanguageManager.shared.localizedString(for: "Middle")).foregroundColor(.gray)
                     Spacer()
                     TextField("", text: $viewModel.middleName)
                         .multilineTextAlignment(.trailing)
                         .autocapitalization(.none)
                 }
                 HStack {
-                    Text("Surname").foregroundColor(.gray)
+                    Text(LanguageManager.shared.localizedString(for: "Surname")).foregroundColor(.gray)
                     Spacer()
                     TextField("", text: $viewModel.surname)
                         .multilineTextAlignment(.trailing)
@@ -37,11 +37,11 @@ struct NameEntryView: View {
                 }
             }
         }
-        .navigationTitle("Name")
+        .navigationTitle(LanguageManager.shared.localizedString(for: "Name"))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Done") {
+                Button(LanguageManager.shared.localizedString(for: "Done")) {
                     viewModel.saveProfile()
                     dismiss()
                 }

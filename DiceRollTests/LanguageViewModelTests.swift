@@ -56,4 +56,48 @@ final class LanguageViewModelTests: XCTestCase {
         XCTAssertEqual(newViewModel.language, "fr")
         XCTAssertEqual(newViewModel.region, "FR")
     }
+    
+    @MainActor func testSaveLanguageUpdatesRefreshID() {
+        let viewModel = LanguageViewModel(context: inMemoryContainer.viewContext)
+        let oldID = viewModel.languageRefreshID
+
+        viewModel.language = "es"
+        viewModel.region = "ES"
+        viewModel.saveLanguageAndRegion()
+
+        XCTAssertNotEqual(viewModel.languageRefreshID, oldID, "Refresh ID should change after saving language")
+    }
+    
+    @MainActor func testLanguageManagerIsUpdated() {
+        let viewModel = LanguageViewModel(context: inMemoryContainer.viewContext)
+        viewModel.language = "de"
+        viewModel.saveLanguageAndRegion()
+
+        XCTAssertEqual(LanguageManager.shared.currentLanguage, "de", "LanguageManager should update to match saved language")
+    }
+
+    @MainActor func testSaveRegionWithoutChangingLanguage() {
+        let context = inMemoryContainer.viewContext
+        let viewModel = LanguageViewModel(context: context)
+
+        viewModel.region = "US"
+        viewModel.saveLanguageAndRegion()
+
+        let newViewModel = LanguageViewModel(context: context)
+        XCTAssertEqual(newViewModel.region, "US")
+        XCTAssertEqual(newViewModel.language, "en") // unchanged
+    }
+
+    @MainActor func testFallbackToDefaultLanguageWhenNil() {
+        let context = inMemoryContainer.viewContext
+        let viewModel = LanguageViewModel(context: context)
+
+        viewModel.language = ""
+        viewModel.saveLanguageAndRegion()
+
+        let newViewModel = LanguageViewModel(context: context)
+        XCTAssertEqual(newViewModel.language, "en", "Language should fall back to 'en' when empty")
+    }
+
+
 }

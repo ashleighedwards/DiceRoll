@@ -10,8 +10,8 @@ import SwiftUI
 
 struct HomeView: View {
     let items: [MenuDetails] = [
-        MenuDetails(title: "Sudoku", destination: AnyView(SudokuView())),
-        MenuDetails(title: "Dice roll", destination: AnyView(DiceView()))
+        MenuDetails(title: LanguageManager.shared.localizedString(for: "Sudoku"), destination: AnyView(SudokuView())),
+        MenuDetails(title: LanguageManager.shared.localizedString(for: "Dice Roll"), destination: AnyView(DiceView()))
         ]
     
     var body: some View {
@@ -24,7 +24,7 @@ struct HomeView: View {
                     }
                 }
             }
-            .navigationTitle("Games")
+            .navigationTitle(LanguageManager.shared.localizedString(for: "Games"))
         }
     }
 }

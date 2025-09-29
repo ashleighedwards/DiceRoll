@@ -42,7 +42,7 @@ struct ProfileFormView: View {
                             matching: .images,
                             photoLibrary: .shared()
                         ) {
-                            Text("Edit")
+                            Text(LanguageManager.shared.localizedString(for: "Edit"))
                                 .font(.title3)
                                 .foregroundColor(.blue)
                         }
@@ -54,10 +54,10 @@ struct ProfileFormView: View {
 
             }
         
-            Section(header: Text("Personal Info")) {
+            Section(header: Text(LanguageManager.shared.localizedString(for: "Personal Info"))) {
                 NavigationLink(destination: NameEntryView(viewModel: viewModel)) {
                     HStack {
-                        Text("Name")
+                        Text(LanguageManager.shared.localizedString(for: "Name"))
                         Spacer()
                         Text(viewModel.fullName.isEmpty ? "" : viewModel.fullName)
                             .foregroundColor(.gray)
@@ -66,7 +66,7 @@ struct ProfileFormView: View {
                     }
                 }
                 HStack {
-                    Text("Email")
+                    Text(LanguageManager.shared.localizedString(for: "Email"))
                     Spacer()
                     TextField("", text: $viewModel.email)
                         .autocapitalization(.none)
@@ -75,7 +75,7 @@ struct ProfileFormView: View {
                 }
                 
                 HStack {
-                    Text("Date of birth")
+                    Text(LanguageManager.shared.localizedString(for: "Date of birth"))
                     Spacer()
                     DatePicker("", selection: $viewModel.dateOfBirth, displayedComponents: .date)
                         .datePickerStyle(.compact)
@@ -83,18 +83,18 @@ struct ProfileFormView: View {
                 }
             }
         }
-        .navigationTitle("Edit Profile")
+        .navigationTitle(LanguageManager.shared.localizedString(for: "Edit Profile"))
         .navigationBarTitleDisplayMode(.inline)
         .onAppear(perform: viewModel.loadProfile)
         .alert(isPresented: $viewModel.showValidationError) {
-            Alert(title: Text("Invalid Input"),
+            Alert(title: Text(LanguageManager.shared.localizedString(for: "Invalid Input")),
                   message: Text(viewModel.errorMessage),
                   dismissButton: .default(Text("OK"))
             )
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Save") {
+                Button(LanguageManager.shared.localizedString(for: "Save")) {
                     viewModel.saveProfile()
                 }
                 .foregroundColor(viewModel.hasUnsavedProfileChanges ? .blue : .gray)

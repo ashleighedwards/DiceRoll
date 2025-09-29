@@ -12,12 +12,12 @@ struct ContentView: View {
         TabView {
             HomeView()
                 .tabItem {
-                    Label("Home", systemImage: "house")
+                    Label(LanguageManager.shared.localizedString(for: "Home"), systemImage: "house")
                 }
             
             SettingsView()
                 .tabItem {
-                    Label("Settings", systemImage: "gear")
+                    Label(LanguageManager.shared.localizedString(for: "Settings"), systemImage: "gear")
                 }
         }
     }

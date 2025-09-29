@@ -20,20 +20,20 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Preferences")) {
-                    Toggle("Enable Dark Mode", isOn: $isDarkMode)
+                Section(header: Text(LanguageManager.shared.localizedString(for: "Preferences"))) {
+                    Toggle(LanguageManager.shared.localizedString(for: "Enable Dark Mode"), isOn: $isDarkMode)
                     .pickerStyle(SegmentedPickerStyle())
                 }
                 
-                Section(header: Text("Account")) {
+                Section(header: Text(LanguageManager.shared.localizedString(for: "Account"))) {
                     NavigationLink(destination: ProfileView()) {
-                        Text("Profile")
+                        Text(LanguageManager.shared.localizedString(for: "Profile"))
                     }
                 }
                 
-                Section(header: Text("Language & Region")) {
+                Section(header: Text(LanguageManager.shared.localizedString(for: "Language & Region"))) {
                     HStack {
-                        Text("Language")
+                        Text(LanguageManager.shared.localizedString(for: "Language"))
                         Spacer()
                         Picker("", selection: $viewModel.language) {
                             ForEach(viewModel.availableLanguages) { language in
@@ -46,7 +46,7 @@ struct SettingsView: View {
                         }
                     }
                     HStack {
-                        Text("Region")
+                        Text(LanguageManager.shared.localizedString(for: "Region"))
                         Spacer()
                         Picker("", selection: $viewModel.region) {
                             ForEach(viewModel.availableRegions) { region in
@@ -61,9 +61,10 @@ struct SettingsView: View {
                     }
                 }
             }
-            .navigationTitle("Settings")
+            .navigationTitle(LanguageManager.shared.localizedString(for: "Settings"))
             .navigationBarTitleDisplayMode(.inline)
         }
+        .id(viewModel.languageRefreshID)
     }
 }
 

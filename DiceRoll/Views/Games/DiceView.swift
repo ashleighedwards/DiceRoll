@@ -32,7 +32,7 @@ struct DiceView: View {
                 Button(action:{
                     viewModel.rollAll()
                 }) {
-                    Text("Roll").fontWeight(.bold).font(.system(size: 50))
+                    Text(LanguageManager.shared.localizedString(for: "Roll")).fontWeight(.bold).font(.system(size: 50))
                 }
             }
             HStack {

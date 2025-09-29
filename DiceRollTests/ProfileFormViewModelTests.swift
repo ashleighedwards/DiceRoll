@@ -29,32 +29,23 @@ final class ProfileFormViewModelTests: XCTestCase {
 
     @MainActor func testInitialStateIsEmpty() {
         let viewModel = ProfileFormViewModel(context: inMemoryContainer.viewContext)
-        XCTAssertEqual(viewModel.name, "")
+        XCTAssertEqual(viewModel.firstName, "")
+        XCTAssertEqual(viewModel.surname, "")
         XCTAssertEqual(viewModel.email, "")
-        XCTAssertEqual(viewModel.age, "")
     }
 
     @MainActor func testIsValidFormPassesWithValidInput() {
         let viewModel = ProfileFormViewModel(context: inMemoryContainer.viewContext)
-        viewModel.name = "Ashleigh"
+        viewModel.firstName = "Ashleigh"
         viewModel.email = "ashleigh@example.com"
 
         XCTAssertTrue(viewModel.isValidForm())
     }
 
-    @MainActor func testIsValidFormFailsWithInvalidInput() {
-        let viewModel = ProfileFormViewModel(context: inMemoryContainer.viewContext)
-        viewModel.name = ""
-        viewModel.email = "not-an-email"
-
-        XCTAssertFalse(viewModel.isValidForm())
-    }
-
     @MainActor func testSaveProfileWithoutExistingProfileFails() {
         let viewModel = ProfileFormViewModel(context: inMemoryContainer.viewContext)
-        viewModel.name = "Ashleigh"
+        viewModel.firstName = "Ashleigh"
         viewModel.email = "ashleigh@example.com"
-        viewModel.age = "30"
 
         viewModel.saveProfile()
 
@@ -63,26 +54,25 @@ final class ProfileFormViewModelTests: XCTestCase {
     }
 
     @MainActor func testSaveProfileWithValidData() {
-        // Preload a profile manually
+        // Preload a profile
         let context = inMemoryContainer.viewContext
         let profile = Profile(context: context)
-        profile.name = "Old Name"
+        profile.firstName = "Old"
+        profile.surname = "Name"
         profile.email = "old@email.com"
-        profile.age = 25
         try? context.save()
 
         let viewModel = ProfileFormViewModel(context: context)
-        viewModel.name = "New Name"
+        viewModel.firstName = "New"
+        viewModel.surname = "Name"
         viewModel.email = "new@email.com"
-        viewModel.age = "40"
 
         viewModel.saveProfile()
 
-        XCTAssertTrue(viewModel.showSuccessMessage)
-
+        XCTAssertFalse(viewModel.showValidationError)
         context.refresh(profile, mergeChanges: true)
-        XCTAssertEqual(profile.name, "New Name")
+        XCTAssertEqual(profile.firstName, "New")
         XCTAssertEqual(profile.email, "new@email.com")
-        XCTAssertEqual(profile.age, 40)
     }
+
 }

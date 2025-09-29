@@ -14,7 +14,7 @@ struct SudokuView: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            Text("Sudoku")
+            Text(LanguageManager.shared.localizedString(for: "Sudoku"))
                 .font(.largeTitle)
                 .fontWeight(.bold)
 

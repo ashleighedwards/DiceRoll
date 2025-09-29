@@ -18,6 +18,8 @@ class LanguageViewModel: ObservableObject {
     
     @Published var availableLanguages: [LanguageOptions] = []
     @Published var availableRegions: [RegionOptions] = []
+    
+    @Published var languageRefreshID = UUID()
         
     private var languageModel: Language?
     private var viewContext: NSManagedObjectContext
@@ -44,6 +46,7 @@ class LanguageViewModel: ObservableObject {
                 language = "en"
                 region = "GB"
             }
+            LanguageManager.shared.setLanguage(language)
         } catch {
             print("Failed to fetch profile: \(error.localizedDescription)")
         }
@@ -87,6 +90,8 @@ class LanguageViewModel: ObservableObject {
         
         do {
             try viewContext.save()
+            LanguageManager.shared.setLanguage(language)
+            languageRefreshID = UUID()
         } catch {
             print("Failed to save: \(error)")
         }

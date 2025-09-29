@@ -14,6 +14,7 @@ struct DiceRollApp: App {
     let persistenceController = PersistenceController.shared
     
     @State private var hasLoaded = false
+    @StateObject private var appState = AppState()
     
     var body: some Scene {
         WindowGroup {
@@ -21,6 +22,7 @@ struct DiceRollApp: App {
                 ContentView()
                     .environment(\.managedObjectContext, persistenceController.container.viewContext)
                     .preferredColorScheme(isDarkMode ? .dark : .light)
+                    .environmentObject(appState)
             } else {
                 Color.clear
                     .onAppear {
