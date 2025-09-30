@@ -19,30 +19,31 @@ struct CartView: View {
         NavigationView {
             VStack {
                 List {
-                    List {
-                        Section(header:
+                    Section(header:
+                        HStack {
+                            Text("Item")
+                                .font(.headline)
+                            Spacer()
+                            Text("Quantity")
+                                .font(.headline)
+                            Spacer()
+                            Text("Price")
+                                .font(.headline)
+                        }
+                        .padding(.vertical, 4)
+                    ) {
+                        ForEach(viewModel.items, id: \.objectID) { item in
                             HStack {
-                                Text("Item")
-                                    .font(.headline)
+                                Text(item.product?.productName ?? "Unknown")
+                                    .frame(width: 80, alignment: .leading)
+                                    .lineLimit(1)
+                                    .truncationMode(.tail)
                                 Spacer()
-                                Text("Quantity")
-                                    .font(.headline)
+                                Text("\(item.quantity)")
                                 Spacer()
-                                Text("Price")
-                                    .font(.headline)
-                            }
-                            .padding(.vertical, 4)
-                        ) {
-                            ForEach(viewModel.items, id: \.objectID) { item in
-                                HStack {
-                                    Text(item.product?.productName ?? "Unknown")
-                                    Spacer()
-                                    Text("\(item.quantity)")
-                                    Spacer()
-                                    let price = item.product?.price ?? 0.0
-                                    Text("£\(Double(item.quantity) * price, specifier: "%.2f")")
-                                        .bold()
-                                }
+                                let price = item.product?.price ?? 0.0
+                                Text("£\(Double(item.quantity) * price, specifier: "%.2f")")
+                                    .bold()
                             }
                         }
                     }
