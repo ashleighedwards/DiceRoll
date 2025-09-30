@@ -16,6 +16,10 @@ struct ProductsView: View {
         sortDescriptors: [SortDescriptor(\Product.productName, order: .forward)]
     ) private var products: FetchedResults<Product>
     
+    init(viewModel: ProductViewModel) {
+        _viewModel = ObservedObject(wrappedValue: viewModel)
+    }
+    
     var body: some View {
         NavigationView {
             List {
@@ -25,6 +29,9 @@ struct ProductsView: View {
                             Text(product.productName ?? "Unknown")
                             Text("£\(product.price, specifier: "%.2f")")
                                 .foregroundColor(.gray)
+                            Text("Stock: \(product.availability)")
+                                .font(.caption)
+                                .foregroundColor(product.availability > 0 ? .secondary : .red)
                         }
                         Spacer()
                         if let item = viewModel.cartItem(for: product) {

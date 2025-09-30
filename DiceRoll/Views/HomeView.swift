@@ -11,12 +11,14 @@ import CoreData
 
 struct HomeView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @StateObject private var viewModel: ProductViewModel
+    @StateObject private var productViewModel: ProductViewModel
+    @StateObject private var cartViewModel: CartViewModel
     
     @State private var selectedTab: ShopTabs = .products
     
     init(context: NSManagedObjectContext) {
-        _viewModel = StateObject(wrappedValue: ProductViewModel(context: context))
+        _productViewModel = StateObject(wrappedValue: ProductViewModel(context: context))
+        _cartViewModel = StateObject(wrappedValue: CartViewModel(context: context))
     }
     
     var body: some View {
@@ -25,8 +27,6 @@ struct HomeView: View {
                 Picker("Tabs", selection: $selectedTab) {
                     ForEach(ShopTabs.allCases) { tab in
                         Text(tab.rawValue).tag(tab)
-                            .font(.subheadline)
-                            .tag(tab)
                     }
                 }
                 .pickerStyle(.segmented)
@@ -34,16 +34,16 @@ struct HomeView: View {
                 
                 switch selectedTab {
                 case .products:
-                    ProductsView(viewModel: viewModel)
+                    ProductsView(viewModel: productViewModel)
                 case .cart:
-                    CartView()
+                    CartView(viewModel: cartViewModel)
                 }
             }
             .navigationTitle("Shop")
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
-                viewModel.seedProductsIfNeeded()
-                viewModel.clearExpiredCartItems()
+                productViewModel.seedProductsIfNeeded()
+                productViewModel.clearExpiredCartItems()
             }
         }
     }

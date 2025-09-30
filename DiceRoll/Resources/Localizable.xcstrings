@@ -16,7 +16,7 @@
     "+" : {
 
     },
-    "$%.2f" : {
+    "£%.2f" : {
 
     },
     "Account" : {
@@ -678,6 +678,9 @@
     "Sort" : {
 
     },
+    "Stock: %d" : {
+
+    },
     "Sudoku" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -727,7 +730,7 @@
     "Tabs" : {
 
     },
-    "Total: $%.2f" : {
+    "Total: £%.2f" : {
 
     },
     "x%d" : {

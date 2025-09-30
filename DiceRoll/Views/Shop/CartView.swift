@@ -9,14 +9,16 @@ import SwiftUI
 import CoreData
 
 struct CartView: View {
-    @FetchRequest(
-        sortDescriptors: []
-    ) private var cartItems: FetchedResults<CartItem>
+    @ObservedObject private var viewModel: CartViewModel
+    
+    init(viewModel: CartViewModel) {
+        _viewModel = ObservedObject(wrappedValue: viewModel)
+    }
     
     var body: some View {
         NavigationView {
             List {
-                ForEach(cartItems) { item in
+                ForEach(viewModel.items, id: \.objectID) { item in
                     HStack {
                         Text(item.product?.productName ?? "Unknown")
                         Spacer()
@@ -24,18 +26,14 @@ struct CartView: View {
                     }
                 }
                 
-                if !cartItems.isEmpty {
+                if !viewModel.items.isEmpty {
                     HStack {
                         Spacer()
-                        Text("Total: $\(totalPrice, specifier: "%.2f")")
+                        Text("Total: £\(viewModel.totalPrice, specifier: "%.2f")")
                             .bold()
                     }
                 }
             }
         }
-    }
-    
-    private var totalPrice: Double {
-        cartItems.reduce(0) { $0 + ($1.product?.price ?? 0) * Double($1.quantity) }
     }
 }

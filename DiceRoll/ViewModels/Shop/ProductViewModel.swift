@@ -31,29 +31,45 @@ class ProductViewModel: ObservableObject {
     }
     
     func addToCart(product: Product) {
-        if let existing = cartItem(for: product) {
-            existing.quantity += 1
-            existing.timestamp = Date()
+        if product.availability > 0 {
+            if let existing = cartItem(for: product) {
+                existing.quantity += 1
+                existing.timestamp = Date()
+            } else {
+                let newItem = CartItem(context: context)
+                newItem.id = UUID()
+                newItem.quantity = 1
+                newItem.product = product
+                newItem.timestamp = Date()
+            }
+            
+            product.availability -= 1
+            saveContext()
         } else {
-            let newItem = CartItem(context: context)
-            newItem.id = UUID()
-            newItem.quantity = 1
-            newItem.product = product
-            newItem.timestamp = Date()
+            errorMessage = "Out of stock"
         }
-        saveContext()
     }
     
     func incrementCartItem(_ item: CartItem) {
+        guard let product = item.product, product.availability > 0 else {
+            errorMessage = "Out of stock"
+            return
+        }
+        
         item.quantity += 1
         item.timestamp = Date()
+        product.availability -= 1
         saveContext()
     }
     
     func decrementCartItem(_ item: CartItem) {
         if item.quantity > 1 {
             item.quantity -= 1
+            item.product?.availability += 1
         } else {
+            if let product = item.product {
+                product.availability += 1
+            }
             context.delete(item)
         }
         saveContext()
@@ -82,5 +98,17 @@ class ProductViewModel: ObservableObject {
         } catch {
             errorMessage = "❌ Failed to save: \(error.localizedDescription)"
         }
+    }
+}
+
+extension ProductViewModel {
+    var cartItems: [CartItem] {
+        let request: NSFetchRequest<CartItem> = CartItem.fetchRequest()
+        request.sortDescriptors = []
+        return (try? context.fetch(request)) ?? []
+    }
+    
+    var totalPrice: Double {
+        cartItems.reduce(0) { $0 + ($1.product?.price ?? 0) * Double($1.quantity) }
     }
 }
