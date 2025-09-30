@@ -120,7 +120,7 @@ final class ProductViewModelTests: XCTestCase {
         let item = viewModel.cartItem(for: product)!
         let oldTimestamp = item.timestamp
         
-        sleep(1) // wait a bit to ensure a difference
+        sleep(1)
         viewModel.incrementCartItem(item)
         
         XCTAssertNotEqual(item.timestamp, oldTimestamp)

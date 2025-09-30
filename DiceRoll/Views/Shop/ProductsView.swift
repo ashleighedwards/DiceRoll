@@ -9,11 +9,12 @@ import SwiftUI
 import CoreData
 
 struct ProductsView: View {
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Product.productName, ascending: true)]
-    ) private var products: FetchedResults<Product>
-    
     @ObservedObject var viewModel: ProductViewModel
+    @State private var selectedSort: ProductSort = .nameAsc
+    
+    @FetchRequest(
+        sortDescriptors: [SortDescriptor(\Product.productName, order: .forward)]
+    ) private var products: FetchedResults<Product>
     
     var body: some View {
         NavigationView {
@@ -22,7 +23,7 @@ struct ProductsView: View {
                     HStack {
                         VStack(alignment: .leading) {
                             Text(product.productName ?? "Unknown")
-                            Text("$\(product.price, specifier: "%.2f")")
+                            Text("£\(product.price, specifier: "%.2f")")
                                 .foregroundColor(.gray)
                         }
                         Spacer()
@@ -41,6 +42,27 @@ struct ProductsView: View {
                             }
                             .buttonStyle(.plain)
                             .disabled(product.availability <= 0)
+                        }
+                    }
+                }
+            }
+            .listStyle(.plain)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Menu {
+                        ForEach(ProductSort.allCases) { sort in
+                            Button {
+                                selectedSort = sort
+                                products.sortDescriptors = [sort.sortDescriptor]
+                            } label: {
+                                Text(sort.rawValue)
+                            }
+                        }
+                    } label: {
+                        HStack {
+                            Text("Sort")
+                            Image(systemName: "arrow.up.arrow.down")
+                                .font(.caption)
                         }
                     }
                 }

@@ -675,6 +675,9 @@
     "Shop" : {
 
     },
+    "Sort" : {
+
+    },
     "Sudoku" : {
       "extractionState" : "manual",
       "localizations" : {
