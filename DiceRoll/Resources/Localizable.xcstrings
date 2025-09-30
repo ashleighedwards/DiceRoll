@@ -367,6 +367,9 @@
         }
       }
     },
+    "Item" : {
+
+    },
     "Language" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -554,6 +557,9 @@
         }
       }
     },
+    "Price" : {
+
+    },
     "Products" : {
 
     },
@@ -579,6 +585,9 @@
           }
         }
       }
+    },
+    "Quantity" : {
+
     },
     "Region" : {
       "extractionState" : "manual",
@@ -731,9 +740,6 @@
 
     },
     "Total: £%.2f" : {
-
-    },
-    "x%d" : {
 
     }
   },
