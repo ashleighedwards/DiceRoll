@@ -11,44 +11,53 @@ import CoreData
 struct ProductsView: View {
     @ObservedObject var viewModel: ProductViewModel
     @State private var selectedSort: ProductSort = .nameAsc
+    @State private var products: [Product] = []
+    @Binding var selectedTab: ShopTabs
     
-    @FetchRequest(
-        sortDescriptors: [SortDescriptor(\Product.productName, order: .forward)]
-    ) private var products: FetchedResults<Product>
-    
-    init(viewModel: ProductViewModel) {
+    init(viewModel: ProductViewModel, selectedTab: Binding<ShopTabs>) {
         _viewModel = ObservedObject(wrappedValue: viewModel)
+        _selectedTab = selectedTab
     }
     
     var body: some View {
-        NavigationView {
+        VStack(spacing: 0) {
+            Picker("Tabs", selection: $selectedTab) {
+                ForEach(ShopTabs.allCases) { tab in
+                    Text(tab.rawValue).tag(tab)
+                }
+            }
+            .pickerStyle(.segmented)
+            .padding(.top, 8)
+            
             List {
-                ForEach(products) { product in
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(product.productName ?? "Unknown")
-                            Text("£\(product.price, specifier: "%.2f")")
-                                .foregroundColor(.gray)
-                            Text("Stock: \(product.availability)")
-                                .font(.caption)
-                                .foregroundColor(product.availability > 0 ? .secondary : .red)
-                        }
-                        Spacer()
-                        if let item = viewModel.cartItem(for: product) {
-                            QuantityControl(
-                                item: item,
-                                onIncrement: { viewModel.incrementCartItem(item) },
-                                onDecrement: { viewModel.decrementCartItem(item) }
-                            )
-                        } else {
-                            Button {
-                                viewModel.addToCart(product: product)
-                            } label: {
-                                Image(systemName: "plus.circle")
-                                    .font(.title2)
+                ForEach(products, id: \.objectID) { product in
+                    NavigationLink(destination: ProductDetailView(product: product)) {
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(product.productName ?? "Unknown")
+                                Text("£\(product.price, specifier: "%.2f")")
+                                    .foregroundColor(.gray)
+                                Text("Stock: \(product.availability)")
+                                    .font(.caption)
+                                    .foregroundColor(product.availability > 0 ? .secondary : .red)
                             }
-                            .buttonStyle(.plain)
-                            .disabled(product.availability <= 0)
+                            Spacer()
+                            if let item = viewModel.cartItem(for: product) {
+                                QuantityControl(
+                                    item: item,
+                                    onIncrement: { viewModel.incrementCartItem(item) },
+                                    onDecrement: { viewModel.decrementCartItem(item) }
+                                )
+                            } else {
+                                Button {
+                                    viewModel.addToCart(product: product)
+                                } label: {
+                                    Image(systemName: "plus.circle")
+                                        .font(.title2)
+                                }
+                                .buttonStyle(.plain)
+                                .disabled(product.availability <= 0)
+                            }
                         }
                     }
                 }
@@ -60,7 +69,7 @@ struct ProductsView: View {
                         ForEach(ProductSort.allCases) { sort in
                             Button {
                                 selectedSort = sort
-                                products.sortDescriptors = [sort.sortDescriptor]
+                                $products.sort = [sort.swiftUISort]
                             } label: {
                                 Text(sort.rawValue)
                             }
@@ -69,11 +78,18 @@ struct ProductsView: View {
                         HStack {
                             Text("Sort")
                             Image(systemName: "arrow.up.arrow.down")
-                                .font(.caption)
-                        }
+                        }.font(.caption)
                     }
                 }
             }
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle("Shop")
+        .onAppear {
+            products = viewModel.fetchProducts(sortedBy: selectedSort)
+        }
+        .onChange(of: selectedSort) { newSort in
+            products = viewModel.fetchProducts(sortedBy: newSort)
         }
     }
 }

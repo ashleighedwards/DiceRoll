@@ -22,25 +22,39 @@ struct HomeView: View {
     }
     
     var body: some View {
+//        NavigationView {
+//            VStack(spacing: 0) {
+//                Picker("Tabs", selection: $selectedTab) {
+//                    ForEach(ShopTabs.allCases) { tab in
+//                        Text(tab.rawValue).tag(tab)
+//                    }
+//                }
+//                .pickerStyle(.segmented)
+//                .padding(.top, 8)
+//                
+//                switch selectedTab {
+//                case .products:
+//                    ProductsView(viewModel: productViewModel)
+//                case .cart:
+//                    CartView(viewModel: cartViewModel)
+//                }
+//            }
+//            .navigationTitle("Shop")
+//            .navigationBarTitleDisplayMode(.inline)
+//            .onAppear {
+//                productViewModel.seedProductsIfNeeded()
+//                productViewModel.clearExpiredCartItems()
+//            }
+//        }
         NavigationView {
-            VStack(spacing: 0) {
-                Picker("Tabs", selection: $selectedTab) {
-                    ForEach(ShopTabs.allCases) { tab in
-                        Text(tab.rawValue).tag(tab)
-                    }
-                }
-                .pickerStyle(.segmented)
-                .padding(.top, 8)
-                
+            Group {
                 switch selectedTab {
                 case .products:
-                    ProductsView(viewModel: productViewModel)
+                    ProductsView(viewModel: productViewModel, selectedTab: $selectedTab)
                 case .cart:
-                    CartView(viewModel: cartViewModel)
+                    CartView(viewModel: cartViewModel, selectedTab: $selectedTab)
                 }
             }
-            .navigationTitle("Shop")
-            .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 productViewModel.seedProductsIfNeeded()
                 productViewModel.clearExpiredCartItems()

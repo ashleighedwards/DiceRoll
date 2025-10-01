@@ -41,10 +41,9 @@ class CartViewModel: NSObject, ObservableObject, NSFetchedResultsControllerDeleg
     }
     
     nonisolated func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        Task {
-            @MainActor in
-            self.items = self.frc.fetchedObjects ?? []
-        }
+        DispatchQueue.main.async {
+                    self.items = self.frc.fetchedObjects ?? []
+                }
     }
     
     var totalPrice: Double {
@@ -57,6 +56,19 @@ class CartViewModel: NSObject, ObservableObject, NSFetchedResultsControllerDeleg
             for item in items {
                 if let product = item.product {
                     product.availability += item.quantity
+                }
+                context.delete(item)
+            }
+            saveContext()
+        }
+    }
+    
+    func purchaseItems() {
+        let request: NSFetchRequest<CartItem> = CartItem.fetchRequest()
+        if let items = try? context.fetch(request) {
+            for item in items {
+                if let product = item.product {
+                    product.availability -= item.quantity
                 }
                 context.delete(item)
             }

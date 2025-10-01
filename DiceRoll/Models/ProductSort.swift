@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 
 enum ProductSort: String, CaseIterable, Identifiable {
     case nameAsc = "Name ↑"
@@ -15,16 +16,22 @@ enum ProductSort: String, CaseIterable, Identifiable {
     
     var id: String { rawValue }
     
-    var sortDescriptor: SortDescriptor<Product> {
-        switch self {
-        case .nameAsc:
-            SortDescriptor(\.productName, order: .forward)
-        case .nameDesc:
-            SortDescriptor(\.productName, order: .reverse)
-        case .priceAsc:
-            SortDescriptor(\.price, order: .forward)
-        case .priceDesc:
-            SortDescriptor(\.price, order: .reverse)
+    var nsSort: NSSortDescriptor {
+            switch self {
+            case .nameAsc:
+                return NSSortDescriptor(
+                    key: "productName",
+                    ascending: true,
+                    selector: #selector(NSString.localizedCaseInsensitiveCompare(_:)))
+            case .nameDesc:
+                return NSSortDescriptor(
+                    key: "productName",
+                    ascending: false,
+                    selector: #selector(NSString.localizedCaseInsensitiveCompare(_:)))
+            case .priceAsc:
+                return NSSortDescriptor(key: "price", ascending: true)
+            case .priceDesc:
+                return NSSortDescriptor(key: "price", ascending: false)
+            }
         }
-    }
 }

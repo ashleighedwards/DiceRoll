@@ -17,17 +17,19 @@ class CSVLoader {
         
         do {
             let data = try String(contentsOf: url, encoding: .utf8)
-            let rows = data.components(separatedBy: "\n").dropFirst()
+            var rows = data.components(separatedBy: .newlines)
+            rows.removeFirst()
             
-            for row in rows {
+            for row in rows where !row.isEmpty {
                 let columns = row.components(separatedBy: ",")
-                if columns.count >= 5 {
+                if columns.count >= 6 {
                     let product = Product(context: context)
                     product.id = UUID()
                     product.productName = columns[1]
                     product.price = Double(columns[2]) ?? 0.0
                     product.imageName = columns[3]
                     product.availability = Int16(columns[4]) ?? 0
+                    product.productDescription = columns[5]
                 }
             }
             

@@ -1,28 +1,28 @@
-id,productName,price,imageName,availability
-1,Sudoku book,5.99,sudoku,300
-2,Heat,10.99,car,200
-3,Trio/Nana,9.99,card,100
-4,Tatari,7.99,stairs,50
-5,INIS,12.99,image,75
-6,Scout,5.99,tent,50
-7,Gang of Dice,4.99,dice,125
-8,Azul,8.99,blue,150
-9,My City,10.99,city,175
-10,Mille Fiori,11.99,sea,200
-11,Pax Pamir,8.99,purple,150
-12,Sidereal Confluence,12.99,alien,200
-13,Undaunted: Stalingrad,13.99,war,250
-14,El Grande,7.99,horse,200
-15,MLEM: Space Agency,9.99,cat,300
-16,The Crew: Mission Deep Sea,13.99,sea,200
-17,The Quest For El Dorado,12.99,grass,250
-18,Hansa Teutonica: Big Box,14.99,castle,150
-19,Through the Desert,8.99,desert,200
-20,Babylonia,6.99,oasis,200
-21,Klask,5.99,blue,300
-22,Brass: Birmingham,9.99,black,200
-23,Arcs,5.99,space,225
-24,Crokinole,15.99,circle,100
-25,RA,7.99,egypt,125
-26,Tigris & Euphrates,8.99,castle,250
-27,Yellow & Yangtze,12.99,river,100
+id,productName,price,imageName,availability,productDescription
+1,Sudoku book,5.99,sudoku,300,A collection of challenging number puzzles to test your logic skills anytime and anywhere.
+2,Heat,10.99,heat,200,A high-speed racing game where players fine-tune their cars and push engines to the limit.
+3,Trio/Nana,9.99,trio,100,A clever card game of memory and deduction perfect for families and quick matches.
+4,Tatari,7.99,tatari,50,A haunting strategy game set around cursed stairs blending tension with tactical play.
+5,INIS,12.99,inis,75,A Celtic-themed board game of exploration alliances and legendary battles.
+6,Scout,5.99,scout,50,A portable card-and-tent game of flexible strategies and quick thinking.
+7,Gang of Dice,4.99,gangofdice,125,A fast dice-rolling party game with push-your-luck mechanics and plenty of laughter.
+8,Azul,8.99,azul,150,An award-winning abstract tile-laying game inspired by Moorish art and patterns.
+9,My City,10.99,mycity,175,A legacy game where your town grows and evolves with every session you play.
+10,Mille Fiori,11.99,millefiori,200,A strategic glassmaking game set on the Venetian seas filled with tactical choices.
+11,Pax Pamir,8.99,paxpamir,150,A deep political game set in 19th-century Afghanistan filled with negotiation and intrigue.
+12,Sidereal Confluence,12.99,sidereal,200,A massive alien trading game where negotiation and deals drive your empire.
+13,Undaunted: Stalingrad,13.99,undaunted,250,A gripping deck-building war game set during WWII’s brutal Eastern Front.
+14,El Grande,7.99,elgrande,200,A classic area-control game of nobles knights and shifting influence in medieval Spain.
+15,MLEM: Space Agency,9.99,spaceagency,300,A quirky cat-astronaut game of cosmic exploration and daring missions.
+16,The Crew: Mission Deep Sea,13.99,thecrew,200,A cooperative trick-taking adventure set under the ocean’s depths.
+17,The Quest For El Dorado,12.99,eldorado,250,A fast-paced deck-building race through jungles in search of gold.
+18,Hansa Teutonica: Big Box,14.99,sansa,150,The definitive edition of the trading and influence Eurogame classic.
+19,Through the Desert,8.99,desert,200,A colorful abstract game where players build camel caravans across the sands.
+20,Babylonia,6.99,babylonia,200,A tile-laying strategy game set in ancient Mesopotamia rich in tactical depth.
+21,Klask,5.99,klask,300,A fast-paced dexterity game combining magnetic pieces with air-hockey style gameplay.
+22,Brass: Birmingham,9.99,brass,200,A deep economic strategy game about industry canals and competition.
+23,Arcs,5.99,arcs,225,A spacefaring strategy game of galactic conquest alliances and shifting powers.
+24,Crokinole,15.99,crokinole,100,A classic dexterity game of flicking wooden discs into a scoring circle.
+25,RA,7.99,ra,125,A legendary auction game of ancient Egypt blending push-your-luck with strategic bidding.
+26,Tigris & Euphrates,8.99,tigris,250,A timeless classic of civilization building conflict and balance along ancient rivers.
+27,Yellow & Yangtze,12.99,yellow,100,The spiritual successor to Tigris & Euphrates balancing harmony and rivalry in ancient China.

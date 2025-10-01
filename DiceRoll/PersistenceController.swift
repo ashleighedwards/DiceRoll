@@ -20,9 +20,9 @@ struct PersistenceController {
 
         container.loadPersistentStores { description, error in
             if let error = error as NSError? {
-                fatalError("💥 Core Data store failed to load: \(error), \(error.userInfo)")
+                fatalError("Core Data store failed to load: \(error), \(error.userInfo)")
             } else {
-                print("✅ Core Data store loaded: \(description)")
+                print("Core Data store loaded: \(description)")
             }
         }
 

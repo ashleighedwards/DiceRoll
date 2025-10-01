@@ -10,15 +10,26 @@ import CoreData
 
 struct CartView: View {
     @ObservedObject private var viewModel: CartViewModel
+    @State private var showingAlert = false
+    @State private var purchaseComplete = false
+    @Binding var selectedTab: ShopTabs
     
-    init(viewModel: CartViewModel) {
+    init(viewModel: CartViewModel, selectedTab: Binding<ShopTabs>) {
         _viewModel = ObservedObject(wrappedValue: viewModel)
+        _selectedTab = selectedTab
     }
     
     var body: some View {
-        NavigationView {
-            VStack {
-                List {
+        VStack(spacing: 0) {
+            Picker("Tabs", selection: $selectedTab) {
+                ForEach(ShopTabs.allCases) { tab in
+                    Text(tab.rawValue).tag(tab)
+                }
+            }
+            .pickerStyle(.segmented)
+            .padding(.top, 8)
+            List {
+                if !viewModel.items.isEmpty {
                     Section(header:
                         HStack {
                             Text("Item")
@@ -47,18 +58,33 @@ struct CartView: View {
                             }
                         }
                     }
-
-                    
-                    if !viewModel.items.isEmpty {
-                        HStack {
-                            Spacer()
-                            Text("Total: £\(viewModel.totalPrice, specifier: "%.2f")")
-                                .bold()
-                        }
-                        .padding()
+                    HStack {
+                        Spacer()
+                        Text("Total: £\(viewModel.totalPrice, specifier: "%.2f")")
+                            .bold()
                     }
+                    .padding()
+                }
+            }
+                
+            if !viewModel.items.isEmpty {
+                Button("Purchase") {
+                    showingAlert = true
+                }
+                .buttonStyle(.borderedProminent)
+                .padding()
+                .alert("Confirm Purchase", isPresented: $showingAlert) {
+                    Button("Confirm", role: .destructive) {
+                        viewModel.purchaseItems()
+                        purchaseComplete = true
+                    }
+                    Button("Cancel", role: .cancel) { }
+                } message: {
+                    Text("Do you want to complete your purchase?")
                 }
             }
         }
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle("Shop")
     }
 }

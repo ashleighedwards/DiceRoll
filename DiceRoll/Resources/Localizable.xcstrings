@@ -42,7 +42,16 @@
         }
       }
     },
+    "Cancel" : {
+
+    },
     "Cart" : {
+
+    },
+    "Confirm" : {
+
+    },
+    "Confirm Purchase" : {
 
     },
     "Date of birth" : {
@@ -113,6 +122,9 @@
           }
         }
       }
+    },
+    "Do you want to complete your purchase?" : {
+
     },
     "Done" : {
       "extractionState" : "manual",
@@ -560,6 +572,9 @@
     "Price" : {
 
     },
+    "Product details" : {
+
+    },
     "Products" : {
 
     },
@@ -585,6 +600,9 @@
           }
         }
       }
+    },
+    "Purchase" : {
+
     },
     "Quantity" : {
 
@@ -685,6 +703,9 @@
 
     },
     "Sort" : {
+
+    },
+    "Stock available: %d" : {
 
     },
     "Stock: %d" : {
