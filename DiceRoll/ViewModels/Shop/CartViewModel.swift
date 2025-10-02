@@ -50,6 +50,11 @@ class CartViewModel: NSObject, ObservableObject, NSFetchedResultsControllerDeleg
         items.reduce(0) { $0 + ($1.product?.price ?? 0) * Double($1.quantity)}
     }
     
+    func removeItem(_ item: CartItem) {
+        context.delete(item)
+        saveContext()
+    }
+    
     func clearCart() {
         let request: NSFetchRequest<CartItem> = CartItem.fetchRequest()
         if let items = try? context.fetch(request) {

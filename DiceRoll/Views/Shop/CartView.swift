@@ -28,19 +28,20 @@ struct CartView: View {
             }
             .pickerStyle(.segmented)
             .padding(.top, 8)
-            List {
-                if !viewModel.items.isEmpty {
+            Spacer()
+            if !viewModel.items.isEmpty {
+                List {
                     Section(header:
-                        HStack {
-                            Text("Item")
-                                .font(.headline)
-                            Spacer()
-                            Text("Quantity")
-                                .font(.headline)
-                            Spacer()
-                            Text("Price")
-                                .font(.headline)
-                        }
+                                HStack {
+                        Text("Item")
+                            .font(.headline)
+                        Spacer()
+                        Text("Quantity")
+                            .font(.headline)
+                        Spacer()
+                        Text("Price")
+                            .font(.headline)
+                    }
                         .padding(.vertical, 4)
                     ) {
                         ForEach(viewModel.items, id: \.objectID) { item in
@@ -57,6 +58,12 @@ struct CartView: View {
                                     .bold()
                             }
                         }
+                        .onDelete { indexSet in
+                            for index in indexSet {
+                                let item = viewModel.items[index]
+                                viewModel.removeItem(item)
+                            }
+                        }
                     }
                     HStack {
                         Spacer()
@@ -65,9 +72,7 @@ struct CartView: View {
                     }
                     .padding()
                 }
-            }
                 
-            if !viewModel.items.isEmpty {
                 Button("Purchase") {
                     showingAlert = true
                 }
@@ -82,6 +87,9 @@ struct CartView: View {
                 } message: {
                     Text("Do you want to complete your purchase?")
                 }
+            } else {
+                Text("Add items to your cart.").italic()
+                Spacer()
             }
         }
         .navigationBarTitleDisplayMode(.inline)

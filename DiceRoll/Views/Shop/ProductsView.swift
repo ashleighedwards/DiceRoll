@@ -74,9 +74,9 @@ struct ProductsView: View {
                         }
                     } label: {
                         HStack {
-                            Text("Sort")
-                            Image(systemName: "arrow.up.arrow.down")
-                        }.font(.caption)
+                            Text("Sort").font(.caption)
+                            Image(systemName: "arrow.up.arrow.down").font(.footnote)
+                        }
                     }
                 }
             }
