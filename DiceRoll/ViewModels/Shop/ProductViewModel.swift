@@ -12,9 +12,20 @@ import CoreData
 class ProductViewModel: ObservableObject {
     private var context: NSManagedObjectContext
     @Published var errorMessage: String?
+    @Published var products: [Product] = []
+    @Published var selectedSort: ProductSort = .nameAsc
+    
+//    private(set) var currentSort: ProductSort = .nameAsc
     
     init(context: NSManagedObjectContext) {
         self.context = context
+        loadProducts()
+    }
+    
+    func loadProducts() {
+        let request: NSFetchRequest<Product> = Product.fetchRequest()
+        request.sortDescriptors = [selectedSort.nsSort]
+        products = (try? context.fetch(request)) ?? []
     }
     
     func cartItem(for product: Product) -> CartItem? {
@@ -42,6 +53,7 @@ class ProductViewModel: ObservableObject {
             newItem.timestamp = Date()
         }
         saveContext()
+        loadProducts()
     }
     
     func fetchProducts(sortedBy sort: ProductSort) -> [Product] {
@@ -59,6 +71,7 @@ class ProductViewModel: ObservableObject {
         item.quantity += 1
         item.timestamp = Date()
         saveContext()
+        loadProducts()
     }
     
     func decrementCartItem(_ item: CartItem) {
@@ -68,6 +81,7 @@ class ProductViewModel: ObservableObject {
             context.delete(item)
         }
         saveContext()
+        loadProducts()
     }
     
     func clearExpiredCartItems() {

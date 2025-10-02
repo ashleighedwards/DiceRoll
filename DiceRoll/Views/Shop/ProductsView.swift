@@ -10,8 +10,6 @@ import CoreData
 
 struct ProductsView: View {
     @ObservedObject var viewModel: ProductViewModel
-    @State private var selectedSort: ProductSort = .nameAsc
-    @State private var products: [Product] = []
     @Binding var selectedTab: ShopTabs
     
     init(viewModel: ProductViewModel, selectedTab: Binding<ShopTabs>) {
@@ -30,7 +28,7 @@ struct ProductsView: View {
             .padding(.top, 8)
             
             List {
-                ForEach(products, id: \.objectID) { product in
+                ForEach(viewModel.products, id: \.objectID) { product in
                     NavigationLink(destination: ProductDetailView(product: product)) {
                         HStack {
                             VStack(alignment: .leading) {
@@ -68,8 +66,8 @@ struct ProductsView: View {
                     Menu {
                         ForEach(ProductSort.allCases) { sort in
                             Button {
-                                selectedSort = sort
-                                $products.sort = [sort.swiftUISort]
+                                viewModel.selectedSort = sort
+                                viewModel.loadProducts()
                             } label: {
                                 Text(sort.rawValue)
                             }
@@ -85,11 +83,5 @@ struct ProductsView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("Shop")
-        .onAppear {
-            products = viewModel.fetchProducts(sortedBy: selectedSort)
-        }
-        .onChange(of: selectedSort) { newSort in
-            products = viewModel.fetchProducts(sortedBy: newSort)
-        }
     }
 }

@@ -32,11 +32,12 @@ struct ProductDetailView: View {
                 .font(.title2)
                 .foregroundStyle(.gray)
             
+            Spacer()
+            
             Text("Stock available: \(product.availability)")
                 .font(.subheadline)
                 .foregroundStyle(product.availability > 0 ? .green : .red)
             
-            Spacer()
         }
         .padding()
         .navigationTitle("Product details")
