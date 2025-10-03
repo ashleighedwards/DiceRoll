@@ -20,10 +20,15 @@ class CartViewModel: NSObject, ObservableObject, NSFetchedResultsControllerDeleg
         self.context = context
         
         let request: NSFetchRequest<CartItem> = CartItem.fetchRequest()
-        request.sortDescriptors = []
+        request.sortDescriptors = [
+            NSSortDescriptor(keyPath: \CartItem.timestamp, ascending: true)
+        ]
         
         frc = NSFetchedResultsController(
-            fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil
+            fetchRequest: request,
+            managedObjectContext: context,
+            sectionNameKeyPath: nil,
+            cacheName: nil
         )
         
         super.init()
@@ -68,17 +73,38 @@ class CartViewModel: NSObject, ObservableObject, NSFetchedResultsControllerDeleg
         }
     }
     
-    func purchaseItems() {
+    func purchaseItems() -> Order? {
         let request: NSFetchRequest<CartItem> = CartItem.fetchRequest()
-        if let items = try? context.fetch(request) {
-            for item in items {
-                if let product = item.product {
-                    product.availability -= item.quantity
-                }
-                context.delete(item)
+        guard let cart = try? context.fetch(request), !cart.isEmpty else { return nil }
+        
+        let order = Order(context: context)
+        order.id = UUID()
+        order.orderId = OrderID.make()
+        order.createdAt = Date()
+        
+        var total: Double = 0
+        
+        for item in cart {
+            let orderItem = OrderItem(context: context)
+            orderItem.name = item.product?.productName ?? "Item"
+            orderItem.unitPrice = item.product?.price ?? 0
+            orderItem.quantity = Int16(item.quantity)
+            total += orderItem.unitPrice * Double(orderItem.quantity)
+            
+            orderItem.productId = item.product?.objectID.uriRepresentation().absoluteString
+            
+            order.addToItems(orderItem)
+            
+            if let product = item.product {
+                product.availability = max(0, product.availability - item.quantity)
             }
-            saveContext()
+            
+            context.delete(item)
         }
+        
+        order.total = total
+        saveContext()
+        return order
     }
 
     

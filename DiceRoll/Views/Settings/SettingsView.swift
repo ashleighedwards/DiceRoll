@@ -60,6 +60,11 @@ struct SettingsView: View {
 
                     }
                 }
+                Section(header: Text(LanguageManager.shared.localizedString(for: "Orders"))) {
+                    NavigationLink(destination: OrdersView()) {
+                        Text(LanguageManager.shared.localizedString(for: "Track orders"))
+                    }
+                }
             }
             .navigationTitle(LanguageManager.shared.localizedString(for: "Settings"))
             .navigationBarTitleDisplayMode(.inline)

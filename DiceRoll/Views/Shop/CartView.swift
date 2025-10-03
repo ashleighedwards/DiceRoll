@@ -7,12 +7,18 @@
 
 import SwiftUI
 import CoreData
+import MessageUI
 
 struct CartView: View {
     @ObservedObject private var viewModel: CartViewModel
     @State private var showingAlert = false
     @State private var purchaseComplete = false
+    @State private var lastOrderID: String?
     @Binding var selectedTab: ShopTabs
+    
+    @Environment(\.managedObjectContext) private var viewContext
+    @State private var emailDraft: EmailDraft?
+    @State private var showEmailSheet = false
     
     init(viewModel: CartViewModel, selectedTab: Binding<ShopTabs>) {
         _viewModel = ObservedObject(wrappedValue: viewModel)
@@ -80,8 +86,15 @@ struct CartView: View {
                 .padding()
                 .alert("Confirm Purchase", isPresented: $showingAlert) {
                     Button("Confirm", role: .destructive) {
-                        viewModel.purchaseItems()
-                        purchaseComplete = true
+                        if let order = viewModel.purchaseItems() {
+                            lastOrderID = order.orderId
+                            if let email = ProfileStore.fetchEmail(in: viewContext), !email.isEmpty {
+                                emailDraft = EmailDraft(to: email, order: order)
+                            } else {
+                                // prompt for email or just show a success alert without email
+                            }
+                            purchaseComplete = true
+                        }
                     }
                     Button("Cancel", role: .cancel) { }
                 } message: {
@@ -94,5 +107,8 @@ struct CartView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("Shop")
+        .sheet(item: $emailDraft) { draft in
+            OrderEmailSheet(to: draft.to, order: draft.order)
+        }
     }
 }

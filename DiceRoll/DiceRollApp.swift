@@ -12,6 +12,7 @@ import CoreData
 struct DiceRollApp: App {
     @AppStorage("isDarkMode") private var isDarkMode = true
     let persistenceController = PersistenceController.shared
+    @Environment(\.scenePhase) private var scenePhase
     
     @State private var hasLoaded = false
     @StateObject private var appState = AppState()
@@ -23,6 +24,9 @@ struct DiceRollApp: App {
                     .environment(\.managedObjectContext, persistenceController.container.viewContext)
                     .preferredColorScheme(isDarkMode ? .dark : .light)
                     .environmentObject(appState)
+                    .onAppear {
+                        persistenceController.purgeOldOrders(olderThan: 5)
+                    }
             } else {
                 Color.clear
                     .onAppear {
@@ -31,7 +35,11 @@ struct DiceRollApp: App {
                         }
                     }
             }
-            
+        }
+        .onChange(of: scenePhase) {_, newPhase in
+            if newPhase == .active {
+                persistenceController.purgeOldOrders(olderThan: 5)
+            }
         }
     }
 }

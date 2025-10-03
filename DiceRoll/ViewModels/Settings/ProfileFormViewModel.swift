@@ -36,6 +36,7 @@ class ProfileFormViewModel: ObservableObject {
     private var initialLast: String = ""
     private var initialEmail: String = ""
     private var initialDateOfBirth: Date = Date()
+    private var initialImageData: Data?
     
     private var profile: Profile?
     private var viewContext: NSManagedObjectContext
@@ -89,7 +90,7 @@ class ProfileFormViewModel: ObservableObject {
                let image = UIImage(data: data) {
                 await MainActor.run {
                     self.profileImage = image
-                    self.saveProfile()
+                    self.hasUnsavedProfileChanges = true
                 }
             }
         }
@@ -121,22 +122,23 @@ class ProfileFormViewModel: ObservableObject {
     }
     
     func saveProfile() {
-        guard let profile = profile else {
-            errorMessage = "No profile found to update."
-            showValidationError = true
-            return
+        if profile == nil {
+            profile = Profile(context: viewContext)
         }
-
-        guard isValidForm() else {
-            errorMessage = "Please ensure name and valid email are filled. \(email)"
-            showValidationError = true
+        
+        guard let profile = profile else { return }
+        
+        let trimmedEmail = email.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !trimmedEmail.isEmpty && !isValidEmail(trimmedEmail) {
+            showError("Please enter a valid email address.")
             return
         }
 
         profile.middleName = middleName
         profile.surname = surname
         profile.firstName = firstName
-        profile.email = email
+        profile.email = trimmedEmail.isEmpty ? nil : trimmedEmail
+
         profile.dob = dateOfBirth
         
         if let image = profileImage {
@@ -145,13 +147,37 @@ class ProfileFormViewModel: ObservableObject {
 
         do {
             try viewContext.save()
+            snapshotInitials()
+            hasUnsavedNameChanges = false
+            hasUnsavedProfileChanges = false
         } catch {
             errorMessage = "Failed to save: \(error.localizedDescription)"
             showValidationError = true
         }
     }
     
-    func isValidForm() -> Bool {
-        !firstName.isEmpty && email.contains("@")
+    private func isValidEmail(_ s: String) -> Bool {
+        let pattern = #"^\S+@\S+\.\S+$"#
+        return s.range(of: pattern, options: .regularExpression) != nil
     }
+    
+    private func showError(_ message: String) {
+        errorMessage = message
+        showValidationError = true
+    }
+    
+    var hasAnyUnsavedChanges: Bool {
+        let imageDirty = (profileImage?.jpegData(compressionQuality: 0.8)) != initialImageData
+        return hasUnsavedNameChanges || hasUnsavedProfileChanges || imageDirty
+    }
+    
+    private func snapshotInitials() {
+        initialFirst = firstName
+        initialMiddle = middleName
+        initialLast = surname
+        initialEmail = email
+        initialDateOfBirth = dateOfBirth
+        initialImageData = profileImage?.jpegData(compressionQuality: 0.8)
+    }
+
 }

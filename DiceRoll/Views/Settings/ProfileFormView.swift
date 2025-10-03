@@ -97,8 +97,8 @@ struct ProfileFormView: View {
                 Button(LanguageManager.shared.localizedString(for: "Save")) {
                     viewModel.saveProfile()
                 }
-                .foregroundColor(viewModel.hasUnsavedProfileChanges ? .blue : .gray)
-                .disabled(!viewModel.hasUnsavedProfileChanges)
+                .foregroundColor(viewModel.hasAnyUnsavedChanges ? .blue : .gray)
+                .disabled(!viewModel.hasAnyUnsavedChanges)
             }
         }
         

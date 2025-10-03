@@ -7,6 +7,9 @@
     "-" : {
 
     },
+    "%@" : {
+
+    },
     "%d" : {
 
     },
@@ -49,6 +52,9 @@
 
     },
     "Cart" : {
+
+    },
+    "Close" : {
 
     },
     "Confirm" : {
@@ -244,6 +250,9 @@
         }
       }
     },
+    "Enter Order ID" : {
+
+    },
     "Enter Your Name" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -431,6 +440,9 @@
         }
       }
     },
+    "Mail isn’t configured on this device." : {
+
+    },
     "Middle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -477,6 +489,9 @@
         }
       }
     },
+    "No items on this order." : {
+
+    },
     "No profile found to update." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -501,6 +516,12 @@
       }
     },
     "OK" : {
+
+    },
+    "Open Mail" : {
+
+    },
+    "Orders" : {
 
     },
     "Personal Info" : {
@@ -605,6 +626,9 @@
       }
     },
     "Purchase" : {
+
+    },
+    "Qty" : {
 
     },
     "Quantity" : {
@@ -714,6 +738,9 @@
     "Stock: %d" : {
 
     },
+    "Submit" : {
+
+    },
     "Sudoku" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -764,6 +791,12 @@
 
     },
     "Total: £%.2f" : {
+
+    },
+    "Track orders" : {
+
+    },
+    "x%d" : {
 
     }
   },
