@@ -547,6 +547,9 @@
         }
       }
     },
+    "Play Again" : {
+
+    },
     "Please ensure name and valid email are filled." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -634,6 +637,9 @@
     "Quantity" : {
 
     },
+    "R P S" : {
+
+    },
     "Region" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -656,6 +662,9 @@
           }
         }
       }
+    },
+    "Rock Paper Scissors" : {
+
     },
     "Roll" : {
       "extractionState" : "manual",
@@ -702,6 +711,9 @@
           }
         }
       }
+    },
+    "Score: %lld" : {
+
     },
     "Settings" : {
       "extractionState" : "manual",

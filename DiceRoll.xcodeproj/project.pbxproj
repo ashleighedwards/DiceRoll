@@ -33,6 +33,7 @@
 		D8CC5C0B2E7EDA8E008E94EF /* Exceptions for "DiceRoll" folder in "DiceRollTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Models/Games/RPSMove.swift,
 				Models/Games/SudokuCell.swift,
 				Models/Settings/LanguageManager.swift,
 				Models/Settings/LanguageOptions.swift,
@@ -43,11 +44,13 @@
 				Models/Shop/ShopTabs.swift,
 				PersistenceController.swift,
 				ViewModels/Games/DiceViewModel.swift,
+				ViewModels/Games/RPSViewModel.swift,
 				ViewModels/Games/SudokuViewModel.swift,
 				ViewModels/Settings/LanguageViewModel.swift,
 				ViewModels/Settings/OrderSearchViewModel.swift,
 				ViewModels/Settings/ProfileFormViewModel.swift,
 				Views/Games/DiceView.swift,
+				Views/Games/RPSView.swift,
 				Views/Games/SudokuCellView.swift,
 				Views/Games/SudokuView.swift,
 				Views/HomeView.swift,
@@ -64,6 +67,7 @@
 		D8CC5C0C2E7EDA8E008E94EF /* Exceptions for "DiceRoll" folder in "DiceRollUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Models/Games/RPSMove.swift,
 				Models/Games/SudokuCell.swift,
 				Models/Settings/LanguageManager.swift,
 				Models/Settings/LanguageOptions.swift,
@@ -74,11 +78,13 @@
 				Models/Shop/ShopTabs.swift,
 				PersistenceController.swift,
 				ViewModels/Games/DiceViewModel.swift,
+				ViewModels/Games/RPSViewModel.swift,
 				ViewModels/Games/SudokuViewModel.swift,
 				ViewModels/Settings/LanguageViewModel.swift,
 				ViewModels/Settings/OrderSearchViewModel.swift,
 				ViewModels/Settings/ProfileFormViewModel.swift,
 				Views/Games/DiceView.swift,
+				Views/Games/RPSView.swift,
 				Views/Games/SudokuCellView.swift,
 				Views/Games/SudokuView.swift,
 				Views/HomeView.swift,

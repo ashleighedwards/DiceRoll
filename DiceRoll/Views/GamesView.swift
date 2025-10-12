@@ -11,7 +11,8 @@ import SwiftUI
 struct GamesView: View {
     let items: [MenuDetails] = [
         MenuDetails(title: LanguageManager.shared.localizedString(for: "Sudoku"), destination: AnyView(SudokuView())),
-        MenuDetails(title: LanguageManager.shared.localizedString(for: "Dice Roll"), destination: AnyView(DiceView()))
+        MenuDetails(title: LanguageManager.shared.localizedString(for: "Dice Roll"), destination: AnyView(DiceView())),
+        MenuDetails(title: LanguageManager.shared.localizedString(for: "Rock Paper Scissors"), destination: AnyView(RPSView()))
         ]
     
     var body: some View {
