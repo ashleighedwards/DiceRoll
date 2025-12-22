@@ -158,6 +158,9 @@
         }
       }
     },
+    "Dual N‑Back" : {
+
+    },
     "Edit" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -466,6 +469,9 @@
         }
       }
     },
+    "N: %lld" : {
+
+    },
     "Name" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -524,6 +530,9 @@
     "Orders" : {
 
     },
+    "Pause" : {
+
+    },
     "Personal Info" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -572,6 +581,9 @@
           }
         }
       }
+    },
+    "Position" : {
+
     },
     "Preferences" : {
       "extractionState" : "manual",
@@ -663,6 +675,9 @@
         }
       }
     },
+    "Resume" : {
+
+    },
     "Rock Paper Scissors" : {
 
     },
@@ -744,10 +759,22 @@
     "Sort" : {
 
     },
+    "Sound" : {
+
+    },
+    "Sound: %@" : {
+
+    },
+    "Start" : {
+
+    },
     "Stock available: %d" : {
 
     },
     "Stock: %d" : {
+
+    },
+    "Stop" : {
 
     },
     "Submit" : {
@@ -807,6 +834,16 @@
     },
     "Track orders" : {
 
+    },
+    "Trial %lld / %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Trial %1$lld / %2$lld"
+          }
+        }
+      }
     },
     "x%d" : {
 
