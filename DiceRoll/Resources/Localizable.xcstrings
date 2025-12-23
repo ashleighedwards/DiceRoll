@@ -132,6 +132,9 @@
         }
       }
     },
+    "Difficulty" : {
+
+    },
     "Do you want to complete your purchase?" : {
 
     },
@@ -157,6 +160,9 @@
           }
         }
       }
+    },
+    "Dual N-Back Settings" : {
+
     },
     "Dual N‑Back" : {
 
@@ -468,6 +474,9 @@
           }
         }
       }
+    },
+    "N-Back: %lld" : {
+
     },
     "N: %lld" : {
 
@@ -829,6 +838,12 @@
     "Tabs" : {
 
     },
+    "Target probability: %lld%%" : {
+
+    },
+    "Target Rate" : {
+
+    },
     "Total: £%.2f" : {
 
     },
@@ -844,6 +859,15 @@
           }
         }
       }
+    },
+    "Trial count: %lld" : {
+
+    },
+    "Trial duration: %.1f s" : {
+
+    },
+    "Trials" : {
+
     },
     "x%d" : {
 

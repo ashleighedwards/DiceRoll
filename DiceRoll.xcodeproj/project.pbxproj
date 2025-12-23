@@ -34,6 +34,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Models/Games/DualNBack.swift,
+				"Models/Games/DualNBack+Mapping.swift",
 				Models/Games/RPSMove.swift,
 				Models/Games/SudokuCell.swift,
 				Models/Settings/LanguageManager.swift,
@@ -59,6 +60,7 @@
 				ViewModels/Games/DualNBackViewModel.swift,
 				ViewModels/Games/RPSViewModel.swift,
 				ViewModels/Games/SudokuViewModel.swift,
+				ViewModels/Settings/DualNBackSettingsViewModel.swift,
 				ViewModels/Settings/LanguageViewModel.swift,
 				ViewModels/Settings/OrderSearchViewModel.swift,
 				ViewModels/Settings/ProfileFormViewModel.swift,
@@ -68,6 +70,8 @@
 				Views/Games/SudokuCellView.swift,
 				Views/Games/SudokuView.swift,
 				Views/HomeView.swift,
+				Views/Settings/DualNBackSettingsView.swift,
+				Views/Settings/GameConfigForm.swift,
 				Views/Settings/NameEntryView.swift,
 				Views/Settings/OrderDetailView.swift,
 				Views/Settings/OrdersSearchView.swift,
@@ -82,6 +86,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Models/Games/DualNBack.swift,
+				"Models/Games/DualNBack+Mapping.swift",
 				Models/Games/RPSMove.swift,
 				Models/Games/SudokuCell.swift,
 				Models/Settings/LanguageManager.swift,
@@ -107,6 +112,7 @@
 				ViewModels/Games/DualNBackViewModel.swift,
 				ViewModels/Games/RPSViewModel.swift,
 				ViewModels/Games/SudokuViewModel.swift,
+				ViewModels/Settings/DualNBackSettingsViewModel.swift,
 				ViewModels/Settings/LanguageViewModel.swift,
 				ViewModels/Settings/OrderSearchViewModel.swift,
 				ViewModels/Settings/ProfileFormViewModel.swift,
@@ -116,6 +122,8 @@
 				Views/Games/SudokuCellView.swift,
 				Views/Games/SudokuView.swift,
 				Views/HomeView.swift,
+				Views/Settings/DualNBackSettingsView.swift,
+				Views/Settings/GameConfigForm.swift,
 				Views/Settings/NameEntryView.swift,
 				Views/Settings/OrderDetailView.swift,
 				Views/Settings/OrdersSearchView.swift,

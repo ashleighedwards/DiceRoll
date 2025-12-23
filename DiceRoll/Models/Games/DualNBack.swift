@@ -12,6 +12,10 @@ enum GridPos: Int, CaseIterable {
     static func random() -> GridPos { GridPos.allCases.randomElement()! }
 }
 
+enum DNBGameState {
+    case idle, running, paused, finished
+}
+
 enum SoundToken: String, CaseIterable {
     case A, B, C, D, E, F, G, H
     static func random() -> SoundToken { SoundToken.allCases.randomElement()! }
@@ -37,9 +41,18 @@ struct TrialResult {
     let soundCorrect: Bool
 }
 
-struct GameConfig {
-    var n: Int              // N-back value
-    var length: Int         // trials in a block
-    var trialDuration: TimeInterval // seconds
-    var targetRate: Double  // 0.3–0.4 recommended
+struct GameConfig: Equatable {
+    var nth: Int
+    var length: Int
+    var trialDuration: TimeInterval
+    var targetRate: Double
+}
+
+extension GameConfig {
+    static let `default` = GameConfig(
+        nth: 2,
+        length: 20,
+        trialDuration: 2.5,
+        targetRate: 0.35
+    )
 }

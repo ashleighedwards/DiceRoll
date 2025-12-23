@@ -7,9 +7,17 @@
 
 
 import SwiftUI
+import CoreData
 
 struct DualNBackView: View {
-    @StateObject private var vm = DualNBackViewModel(config: GameConfig(n: 2, length: 20, trialDuration: 2.5, targetRate: 0.35))
+    @Environment(\.managedObjectContext) private var viewContext
+    @StateObject private var vm: DualNBackViewModel
+    
+    init() {
+        _vm = StateObject(wrappedValue: DualNBackViewModel(
+            context: PersistenceController.shared.container.viewContext
+        ))
+    }
 
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 8), count: 3)
 
@@ -21,7 +29,7 @@ struct DualNBackView: View {
         VStack(spacing: 16) {
             Text("Dual N‑Back")
                 .font(.title2).bold()
-            Text("N: \(vm.config.n)").font(.subheadline).bold()
+            Text("N: \(vm.config.nth)").font(.subheadline).bold()
 
             Text("Trial \(min(vm.currentIndex+1, vm.trials.count)) / \(vm.config.length)")
                 .font(.subheadline)
@@ -116,8 +124,4 @@ struct DualNBackView: View {
                 .animation(.easeOut(duration: 0.25), value: vm.feedbackColor)
         )
     }
-}
-
-#Preview {
-    DualNBackView()
 }

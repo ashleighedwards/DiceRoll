@@ -10,13 +10,10 @@ import Combine
 import AVFoundation
 import UIKit
 import SwiftUI
-
-enum DNBGameState { case idle, running, paused, finished }
+import CoreData
 
 final class DualNBackViewModel: ObservableObject {
-    @Published private(set) var config: GameConfig
     @Published private(set) var state: DNBGameState = .idle
-
     @Published private(set) var trials: [Trial] = []
     @Published private(set) var currentIndex: Int = 0
     @Published private(set) var currentStimulus: Stimulus?
@@ -31,18 +28,44 @@ final class DualNBackViewModel: ObservableObject {
     @Published private(set) var score: Int = 0
     
     @Published var feedbackColor: Color? = nil
-
+    
+    @Published private(set) var config: GameConfig
+    private let context: NSManagedObjectContext
+    
     private let audio = AudioService()
     private var tickCancellable: AnyCancellable?
-    private var trialStartTime: Date?
     private let feedbackDuration: TimeInterval = 0.35
+        
+    init(context: NSManagedObjectContext) {
+        self.context = context
+        self.config = Self.loadConfig(from: context)
+    }
 
-    init(config: GameConfig) {
-        self.config = config
+    private static func loadConfig(from context: NSManagedObjectContext) -> GameConfig {
+        let request: NSFetchRequest<DualNBackGame> = DualNBackGame.fetchRequest()
+        if let saved = try? context.fetch(request).first {
+            return GameConfig(
+                nth: Int(saved.nth),
+                length: Int(saved.length),
+                trialDuration: saved.trialDuration,
+                targetRate: saved.targetRate
+            )
+        }
+        
+        return GameConfig(nth: 2, length: 30, trialDuration: 3.0, targetRate: 0.3)
+    }
+    
+    func reloadConfig(context: NSManagedObjectContext) {
+        self.config = Self.loadConfig(from: context)
     }
 
     func start() {
-        trials = SequenceGenerator.makeTrials(length: config.length, n: config.n, targetRate: config.targetRate)
+        config = Self.loadConfig(from: context)
+        trials = SequenceGenerator.makeTrials(
+            length: config.length,
+            n: config.nth,
+            targetRate: config.targetRate
+        )
         currentIndex = 0
         results = []
         score = 0
@@ -66,12 +89,10 @@ final class DualNBackViewModel: ObservableObject {
         tickCancellable?.cancel()
         state = .finished
         computeAccuracy()
-        adaptNIfNeeded()
     }
 
     private func scheduleTimer() {
         tickCancellable?.cancel()
-
         tickCancellable = Timer
             .publish(every: config.trialDuration, on: .main, in: .common)
             .autoconnect()
@@ -90,8 +111,6 @@ final class DualNBackViewModel: ObservableObject {
         posResponded = false
         soundResponded = false
         canRespond = true
-        trialStartTime = Date()
-        
         feedbackColor = nil
 
         audio.play(t.stimulus.sound)
@@ -99,11 +118,9 @@ final class DualNBackViewModel: ObservableObject {
 
     private func endTrialAndAdvance() {
         guard currentIndex < trials.count else { return }
-
         let t = trials[currentIndex]
         canRespond = false
 
-        // compute correctness
         let posCorrect = (t.isPosTarget == posResponded)
         let soundCorrect = (t.isSoundTarget == soundResponded)
         results.append(TrialResult(
@@ -123,25 +140,20 @@ final class DualNBackViewModel: ObservableObject {
         guard canRespond, !posResponded else { return }
         posResponded = true
         
-        let t = trials[currentIndex]
-        let correct = t.isPosTarget == true
-        flashFeedback(correct: correct)
+        flashFeedback(correct: trials[currentIndex].isPosTarget)
     }
 
     func respondSoundMatch() {
         guard canRespond, !soundResponded else { return }
         soundResponded = true
-        let t = trials[currentIndex]
-        let correct = t.isSoundTarget == true
-        flashFeedback(correct: correct)
+        
+        flashFeedback(correct: trials[currentIndex].isSoundTarget)
     }
     
     private func flashFeedback(correct: Bool) {
         feedbackColor = correct ? .green.opacity(0.45) : .red.opacity(0.45)
         doHaptic(correct: correct)
-        // Auto-clear after a short delay
-        DispatchQueue.main.asyncAfter(deadline: .now() + feedbackDuration) { [weak self] in
-            // Only clear if we haven't moved to next trial with a new flash
+        DispatchQueue.main.asyncAfter(deadline: .now() + feedbackDuration) {[weak self] in
             self?.feedbackColor = nil
         }
     }
@@ -154,16 +166,24 @@ final class DualNBackViewModel: ObservableObject {
 
     private func computeAccuracy() {
         guard !results.isEmpty else { return }
-        let posCorrectCount = results.filter { $0.posCorrect }.count
-        let soundCorrectCount = results.filter { $0.soundCorrect }.count
-        posAccuracy = Double(posCorrectCount) / Double(results.count)
-        soundAccuracy = Double(soundCorrectCount) / Double(results.count)
+
+        posAccuracy = Double(results.filter { $0.posCorrect }.count) / Double(results.count)
+        soundAccuracy = Double(results.filter { $0.soundCorrect }.count) / Double(results.count)
     }
 
-    private func adaptNIfNeeded() {
-        let avgAcc = (posAccuracy + soundAccuracy) / 2.0
-        if avgAcc >= 0.80 { config.n += 1 }
-        else if avgAcc <= 0.50 && config.n > 1 { config.n -= 1 }
-    }
+//    private func adaptNIfNeeded() {
+//        let avgAcc = (posAccuracy + soundAccuracy) / 2.0
+//        var newConfig = config
+//
+//        if avgAcc >= 0.80 {
+//            newConfig.nth += 1
+//        } else if avgAcc <= 0.50 && newConfig.nth > 1 {
+//            newConfig.nth -= 1
+//        }
+//
+//        if newConfig.nth != config.nth {
+//            updateConfig(newConfig)
+//        }
+//    }
+
 }
-

@@ -11,7 +11,7 @@ struct SettingsView: View {
     @AppStorage("isDarkMode") private var isDarkMode = true
     @Environment(\.managedObjectContext) private var viewContext
     @StateObject private var viewModel: LanguageViewModel
-    
+        
     init() {
         let context = PersistenceController.shared.container.viewContext
         _viewModel = StateObject(wrappedValue: LanguageViewModel(context: context))
@@ -65,14 +65,15 @@ struct SettingsView: View {
                         Text(LanguageManager.shared.localizedString(for: "Track orders"))
                     }
                 }
+                Section(header: Text(LanguageManager.shared.localizedString(for: "Dual N-back"))) {
+                    NavigationLink(destination: DualNBackSettingsView()) {
+                        Text(LanguageManager.shared.localizedString(for: "Change game settings"))
+                    }
+                }
             }
             .navigationTitle(LanguageManager.shared.localizedString(for: "Settings"))
             .navigationBarTitleDisplayMode(.inline)
         }
         .id(viewModel.languageRefreshID)
     }
-}
-
-#Preview {
-    SettingsView()
 }
